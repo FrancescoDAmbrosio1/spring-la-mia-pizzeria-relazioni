@@ -20,16 +20,37 @@
 				<p th:text="${pizza.description}"></p>
 				<p th:text="|€ ${#numbers.formatDecimal(pizza.price, 1, 2, 'COMMA')}|" 
 					style="font-weight: 600;"></p>
-<!--					  </div th:if="${}">-->
-					  <ul class="list-group list-group-flush">
-					    <li class="list-group-item">An item</li>
-					    <li class="list-group-item">A second item</li>
-					    <li class="list-group-item">A third item</li>
-					  </ul>
-					</div>
-		  		<div style="text-align: center;">
+				<div style="display: flex; justify-content: space-around; text-align: center;">
 					<a th:href="@{/pizze}" class="btn" style="background-color: green;
-						color: whitesmoke;">Torna al Menu</a>
+							color: whitesmoke;">Torna al Menu</a>						
+				</div>
+				<div th:unless="${pizza.offerte.isEmpty()}">
+					  <h4>Offerte:</h4>
+					  <table id="offerte" class="table">
+					  		<thead>
+					  			<tr>
+					  				<th class="col-6"> Offerta </th>
+					  				<th class="col-3"> Data Inzio</th>
+					  				<th class="col-3"> Data fine</th>
+					  			</tr>
+					  		</thead>
+					  		<tbody>
+					  			<tr th:each="offerta : ${pizza.offerta}">
+					  				<td th:text="${offerta.title}">1</td>
+					  				<td th:text="${offerta.startDate}">1</td>
+					  				<td	th:text="${offerta.endDate}">1</td>
+					  			</tr>
+					  		</tbody>
+					  	</table>	
+				</div>
+				<div th:if="${pizza.offerte.isEmpty()}">
+					<hr>
+					<p th:text="|Per la pizza ${pizza.name} non ci sono offerte in corso|"
+						style="font-style: italic;"></p>
+				</div>
+		  		<div style="display: flex; justify-content: space-around; text-align: center;">
+					<a th:href="@{/pizze/show/{id}/offerte(id=${pizza.id})}" class="btn" style="background-color: green;
+						color: whitesmoke;">Aggiungi Offerta</a>
 				</div>
 		  	</div>
  		</div>

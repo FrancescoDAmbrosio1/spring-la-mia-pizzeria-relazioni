@@ -1,9 +1,12 @@
 package org.lessons.pizzeria.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lessons.pizzeria.model.Offerta;
 import org.lessons.pizzeria.model.Pizza;
+import org.lessons.pizzeria.repository.OffertaRepository;
 import org.lessons.pizzeria.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -24,14 +27,17 @@ import jakarta.validation.Valid;
 public class PizzaController {
 	
 	@Autowired
-	private PizzaRepository repository;
+	private PizzaRepository pizzaRepository;
+	
+	@Autowired
+	private OffertaRepository offertaRepository;
 	
 	@GetMapping
 	public String index(Model model) {
 	        	
 	        	List<Pizza> listaPizze = new ArrayList<Pizza>();
 	    		
-	    		listaPizze = repository.findAll();
+	    		listaPizze = pizzaRepository.findAll();
 	    		
 	    		model.addAttribute("list", listaPizze);
 	    		
@@ -41,9 +47,9 @@ public class PizzaController {
 	@GetMapping("/show/{id}")
 	public String show(@PathVariable("id") Integer pizzaId, Model model) {
 		
-		model.addAttribute("pizza", repository.getReferenceById(pizzaId));
+		model.addAttribute("pizza", pizzaRepository.getReferenceById(pizzaId));
 		
-		return "/pizze/show";
+		return "pizze/show";
 	}
 	
 	@GetMapping("/create")
@@ -69,7 +75,7 @@ public class PizzaController {
 			return "pizze/create";
 		}
 		
-		repository.save(pizza);
+		pizzaRepository.save(pizza);
 		
 		return "redirect:/pizze";
 	}
@@ -81,7 +87,7 @@ public class PizzaController {
 		
 		if(!input.isEmpty()) {
 			
-			list = repository.search(input);
+			list = pizzaRepository.search(input);
 			
 		} 
 			
@@ -94,7 +100,7 @@ public class PizzaController {
 	@GetMapping("/edit/{id}")
 	public String edit(@PathVariable("id") Integer id, Model model) {
 		
-		model.addAttribute("pizza", repository.getReferenceById(id));
+		model.addAttribute("pizza", pizzaRepository.getReferenceById(id));
 		
 		return "/pizze/edit";
 	}
@@ -108,7 +114,7 @@ public class PizzaController {
 			return "/pizze/edit";
 		}
 		
-		repository.save(pizza);
+		pizzaRepository.save(pizza);
 		
 		return "redirect:/pizze";
 	}
@@ -116,8 +122,47 @@ public class PizzaController {
 	@PostMapping("/delete/{id}")
 	public String delete(@PathVariable("id") Integer id) {
 		
-		repository.deleteById(id);
+		pizzaRepository.deleteById(id);
 		
 		return "redirect:/pizze";
 	}
+	
+	
+	@GetMapping("/show/{id}/offerte")
+	public String offerte(@PathVariable("id") Integer id, Model model) {
+		
+		Pizza pizza = pizzaRepository.findById(id).get();
+		
+		Offerta offerta = new Offerta();
+		
+		offerta.setStartDate(LocalDate.now());
+		
+		offerta.setPizza(pizza);
+		
+		model.addAttribute("offerta", offerta);
+
+		
+		return "offerte/create";
+	}
+	
+	@PostMapping("/offerte/create")
+	public String createOfferta(
+			@Valid @ModelAttribute("offerta") Offerta offerta, 
+			BindingResult bindingResult, Model model) {
+		
+//		System.out.println(offerta.getPizza().getId());
+		if(bindingResult.hasErrors()) {
+			
+			return"/offerte/create";
+			
+		}
+		
+		offertaRepository.save(offerta);
+		
+		
+		return "redirect:/pizze";
+		
+	}
+	
 }
+	

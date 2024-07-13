@@ -35,7 +35,7 @@ public class Pizza {
 	private double price; 
 	
 	@OneToMany(mappedBy = "pizza")
-	private List<Offerta> offerte;
+	public List<Offerta> offerte;
 	
 	
 	public double getPrice() {
@@ -76,6 +76,14 @@ public class Pizza {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public List<Offerta> getOfferte() {
+		return offerte;
+	}
+
+	public void setOfferte(List<Offerta> offerte) {
+		this.offerte = offerte;
 	}
 	
 	
