@@ -31,7 +31,7 @@ public class OffertaController {
 		
 		offertaRepository.save(offerta);
 		
-		return "redirect:/pizze";
+		return "redirect:/pizze/show" + offerta.getPizza().getId();
 		
 	}
 	
