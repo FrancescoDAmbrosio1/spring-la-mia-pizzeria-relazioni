@@ -27,10 +27,6 @@ public class Pizza {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
-	@NotBlank(message = "La lista degli ingredienti non può essere vuota")
-	@Column(name = "descrizione")
-	private String description;
-	
 	@NotBlank(message = "Inserire il percorso della foto")
 	@Column(name = " foto", nullable = false)
 	private String url;
@@ -48,7 +44,7 @@ public class Pizza {
 	inverseJoinColumns = @JoinColumn (name = "ingrediente_id")
 	)
 	
-	private Set<Ingrediente> ingredienti;
+	private Set<Ingrediente> ingrediente;
 	
 	
 	public double getPrice() {
@@ -75,14 +71,6 @@ public class Pizza {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public String getUrl() {
 		return url;
 	}
@@ -100,11 +88,11 @@ public class Pizza {
 	}
 
 	public Set<Ingrediente> getIngredienti() {
-		return ingredienti;
+		return ingrediente;
 	}
 
-	public void setIngredienti(Set<Ingrediente> ingredienti) {
-		this.ingredienti = ingredienti;
+	public void setIngredienti(Set<Ingrediente> ingrediente) {
+		this.ingrediente = ingrediente;
 	}
 	
 	

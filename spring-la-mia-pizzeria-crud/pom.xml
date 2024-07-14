@@ -9,10 +9,10 @@
 		<version>3.3.1</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>it.gpedulla.libreria</groupId>
-	<artifactId>libreria</artifactId>
+	<groupId>org.lessons.pizzeria</groupId>
+	<artifactId>pizzeria</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>libreria</name>
+	<name>pizzeria</name>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "ingredienti")
@@ -18,10 +19,11 @@ public class Ingrediente {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name = "ingrediente", nullable = false)
-	private String ingrediente;
+	@NotBlank(message = "L'inserimento dell'ingrediente è obbligatorio")
+	@Column(name = "nome", nullable = false)
+	private String name;
 
-	@ManyToMany(mappedBy = "ingredienti")
+	@ManyToMany(mappedBy = "ingrediente")
 	private Set<Pizza> pizza;
 
 	public Integer getId() {
@@ -32,12 +34,12 @@ public class Ingrediente {
 		this.id = id;
 	}
 
-	public String getIngrediente() {
-		return ingrediente;
+	public String getName() {
+		return name;
 	}
 
-	public void setIngrediente(String ingrediente) {
-		this.ingrediente = ingrediente;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Set<Pizza> getPizza() {
@@ -47,6 +49,8 @@ public class Ingrediente {
 	public void setPizza(Set<Pizza> pizza) {
 		this.pizza = pizza;
 	}
+
+
 	
 	
 }
