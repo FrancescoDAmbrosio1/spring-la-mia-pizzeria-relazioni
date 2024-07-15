@@ -67,20 +67,6 @@
 						</div>
 				</div>
 				<div class="mb-3">
-					<label for="pizzaInputDecription" class="form-label">Inserisci gli ingredienti della Pizza</label>
-					<input type="text" 
-						class="form-control" 
-						id="pizzaInputDecription" placeholder="es. Pomodoro, Mozzarella,..."
-						th:field="*{description}" th:errorClass="is-invalid">
-						<div th:if="${#fields.hasErrors('description')}" class="invalid-feedback">
-							<ul>
-								<li th:each="err : ${#fields.errors('description')}" 
-							   		th:text="${err}">
-							   	</li>
-							</ul>
-						</div>
-				</div>
-				<div class="mb-3">
 					<label for="pizzaInputUrl" class="form-label">Inserisci Url della foto</label>
 					<input type="text" class="form-control" 
 					id="pizzaInputUrl" placeholder="es. /images/nomePizza.jpeg"
@@ -94,18 +80,35 @@
 					</div>
 				</div>
 				<div class="mb-3">
-					<label for="pizzaInputUrl" class="form-label">Inserisci il prezzo della Pizza</label>
-					<input type="text" class="form-control" 
-						id="pizzaInputUrl" placeholder="es. 5.50"
-						th:field="*{price}" th:errorClass="is-invalid">
-									<div th:if="${#fields.hasErrors()}" class="invalid-feedback">
-										<ul>
-											<li th:each="err : ${#fields.errors()}" 
-												th:text="${err}">
-											</li>
-										</ul>
-									</div>
+					<div class="row">
+						<div class="col-6">
+							<label for="pizzaInputUrl" class="form-label">Inserisci il prezzo della Pizza</label>
+							<input type="text" class="form-control" 
+									id="pizzaInputUrl" placeholder="es. 5.50"
+									th:field="*{price}" th:errorClass="is-invalid">
+								<div th:if="${#fields.hasAnyErrors()}" style="color: red;">
+									<ul>
+										<li th:each="err : ${#fields.globalErrors()}">
+											<span th:text="${err}">
+										</li>
+									</ul>
 								</div>
+						</div>
+						<div class="col-6">
+							<div class="dropdown">
+								<label for="InputIngredienti" class="form-label">Aggiungi gli ingredienti alla Pizza</label>
+								<input type="text" class="form-control" data-bs-toggle="dropdown" aria-expanded="false"
+										id="InputIngredienti" placeholder="Seleziona gli ingredienti...">
+									<ul class="dropdown-menu" style="max-height: 200px; overflow-y: scroll;">
+										<li	class="list-group-item" th:each="ingrediente : ${listaIngredienti}" >
+											<input type="checkbox" name="ingrediente" th:value="${ingrediente.id}" th:field="*{ingredienti}">
+											<label th:text="${ingrediente.name}">1</label>
+										</li>
+									</ul>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div style="display: flex; justify-content:space-evenly;">
 					<div>
 						<button type="submit" class="btn mb-3" style="background-color:green; 

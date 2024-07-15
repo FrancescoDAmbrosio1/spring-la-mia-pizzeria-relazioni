@@ -4,11 +4,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lessons.pizzeria.model.Ingrediente;
 import org.lessons.pizzeria.model.Offerta;
 import org.lessons.pizzeria.model.Pizza;
+import org.lessons.pizzeria.repository.IngredienteRepository;
 import org.lessons.pizzeria.repository.OffertaRepository;
 import org.lessons.pizzeria.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +34,8 @@ public class PizzaController {
 	
 	@Autowired
 	private OffertaRepository offertaRepository;
+	
+	@Autowired IngredienteRepository ingredienteRepository;
 	
 	@GetMapping
 	public String index(Model model) {
@@ -56,6 +61,10 @@ public class PizzaController {
 	public String create(Model model) {
 		
 		model.addAttribute("pizza", new Pizza());
+		
+		model.addAttribute("listaIngredienti", ingredienteRepository.findAll(Sort.by(Sort.Direction.ASC, "name")));
+		
+		model.addAttribute("ingrediente", new Ingrediente());
 		
 		return "/pizze/create";
 	}
@@ -101,6 +110,10 @@ public class PizzaController {
 	public String edit(@PathVariable("id") Integer id, Model model) {
 		
 		model.addAttribute("pizza", pizzaRepository.getReferenceById(id));
+		
+		model.addAttribute("listaIngredienti", ingredienteRepository.findAll(Sort.by(Sort.Direction.ASC, "name")));
+		
+		model.addAttribute("ingrediente", ingredienteRepository.findById(id));
 		
 		return "/pizze/edit";
 	}

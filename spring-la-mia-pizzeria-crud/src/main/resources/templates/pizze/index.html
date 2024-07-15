@@ -67,15 +67,27 @@
 						<thead>
 							<tr>
 								<th class="col-3"> NOME </th>
-<!--								<th class="col-4"> DESCRIZIONE </th>-->
+								<th class="col-4"> Ingredienti </th>
 								<th class="col-2 d-none d-md-table-cell"> PREZZO </th>
-								<th class="col-4"></th>
+								<th class="col-3"></th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="pizza : ${list}">
 								<td th:text="${pizza.name}">1</td>
-<!--								<td th:text="${pizza.description}">1</td>-->
+								<td>
+									<ul class="list-group list-group-horizontal" style="list-style-type: none;">
+<!--										<li th:unless="${list.isEmpty()}"-->
+<!--										th:with="ultimoIngrediente=${pizza.ingredienti[__${#lists.size(pizza.ingredienti) - 1}__]}">-->
+<!--											<span th:each="ingrediente: ${pizza.ingredienti}" -->
+<!--											th:text="${ultimoIngrediente.name}" style="padding-right: 3px;"></span>-->
+<!--										</li>-->
+										<li th>
+											<span th:each="ingrediente: ${pizza.ingredienti}" 
+												th:text="|${ingrediente.name},|" style="padding-right: 3px;"></span>
+										</li>		
+									</ul>
+								</td>
 								<td class="col-2 d-none d-md-table-cell" 
 									th:text="|€ ${#numbers.formatDecimal(pizza.price, 1, 2, 'COMMA')}|">1</td>
 								<td>

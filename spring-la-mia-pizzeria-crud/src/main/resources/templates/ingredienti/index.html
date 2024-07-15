@@ -45,10 +45,48 @@
 	      </ul>
 	    </div>
 	  </div>
+	  <div style="margin-top: 20px; margin-bottom: 20px;">
+	  								<form class="d-flex" role="search"
+	  									th:object="${ingrediente}" 
+	  									th:action="@{ingredienti/search}"
+	  									method="get">
+	  									<input class="form-control me-2 bg-white" type="text" 
+	  										placeholder="Cerca ingrediente..." aria-label="Search"
+	  										name="input">
+	  									<button class="btn" type="submit" style="background-color: green;
+	  										color: whitesmoke;">Cerca</button>
+	  							</form>
+	  						</div>
 	</nav>
 </header>
 <main>
 	<div class="container">
+		<div style="margin-top: 20px; margin-bottom: 20px;">
+					<form id="pizza-form"
+							th:object="${ingrediente}" 
+							th:action="@{/ingredienti/create}"
+							method="post">
+						<div class="mb-3">
+							<label for="ingredienteInputName" class="form-label">Inserisci il nome dell'ingrediente</label>
+								<input type="text" class="form-control" 
+										id="ingredienteInputName" placeholder="es. Pomodoro"
+										th:field="*{name}" th:errorClass="is-invalid">
+									<div th:if="${#fields.hasAnyErrors()}" class="invalid-feedback">
+										<ul>
+											<li th:each="err : ${#fields.globalErrors()}">
+												<span th:text="${err}" />
+											</li>
+										</ul>
+									</div>
+						</div>
+						<div style="display: flex; justify-content:end;">
+							<div>
+								<button type="submit" class="btn mb-3" style="background-color: green; 
+										color: whitesmoke;">Aggiungi Ingrediente</button>
+							</div>
+						</div>
+					</form>
+				</div>
 		<h1>Lista degli ingredienti</h1>
 		<div th:unless="${list.isEmpty()}">		
 			<table id="table-1" class="table table-striped">
@@ -62,11 +100,47 @@
 							<tr th:each="ingrediente : ${list}">
 								<td th:text="${ingrediente.name}">1</td>
 								<td>
-									<div class="container-fluid d-flex gap-1">
-										<a class="btn" style="background-color: green;
-											color: whitesmoke;"
-											th:href="@{|/ingredienti/edit/${ingrediente.id}|}"><i class="bi bi-pencil"></i>
-										</a>
+									<div class="container-fluid d-flex justify-content-center gap-1">
+										<button type="button" class="btn" data-bs-toggle="modal"
+												data-bs-target="#exampleModal" style="background-color: green;
+												color: whitesmoke;"
+												th:action="@{|/ingredienti/edit/${ingrediente.id}|}"><i class="bi bi-pencil"></i>
+										</button>				
+										<!-- Modal -->
+										<form id="ingrediente-form"
+											th:object="${ingrediente}" 
+											th:action="@{|/ingredienti/edit/${ingrediente.id}|}"
+											method="post">
+											<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+										  		<div class="modal-dialog">
+										   			<div class="modal-content">
+										    	  		<div class="modal-header">
+										        			<h1 class="modal-title fs-5" id="exampleModalLabel">Modifica l'ingrediente selezionato</h1>
+										        			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										      			</div>
+										      			<div class="modal-body">
+																<div class="mb-3">
+																	<label for="ingredienteInputName" class="form-label">Inserisci il nome dell'ingrediente</label>
+																	<input type="text" class="form-control" 
+																		id="ingredienteInputName" 
+																		th:field="*{name}" th:placeholder="${ingrediente.name}">
+																		<div th:if="${#fields.hasAnyErrors()}" style="color: red;">
+																			<ul>
+																				<li th:each="err : ${#fields.globalErrors()}">
+																						<span th:text="${err}">
+																				</li>
+																			</ul>
+																		</div>
+																</div>
+										      		</div>
+										      <div class="modal-footer">
+										        <button type="submit" class="btn" style="background-color: green; color: whitesmoke;">
+													Salva</button>
+										      </div>
+										    </div>
+										  </div>
+										</div>
+										</form>
 										<form th:action="@{'/ingredienti/delete/{id}'(id=${ingrediente.id})}"
 												method="post">
 												<button class="btn" type="submit" id="submitButton"
@@ -85,35 +159,11 @@
 		<div th:if="${list.isEmpty()}">
 			<span> Non sono presenti ingredienti </span>
 		</div>
-		<div style="margin-top: 20px; margin-bottom: 20px;">
-			<form id="pizza-form"
-					th:object="${ingrediente}" 
-					th:action="@{/ingredienti/create}"
-					method="post">
-				<div class="mb-3">
-					<label for="ingredienteInputName" class="form-label">Inserisci il nome dell'ingrediente</label>
-						<input type="text" class="form-control" 
-								id="ingredienteInputName" placeholder="es. Pomodoro"
-								th:field="*{name}" th:errorClass="is-invalid">
-							<div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
-								<ul>
-									<li th:each="err : ${#fields.errors('name')}" 
-										th:text="${err}">
-									</li>
-								</ul>
-							</div>
-				</div>
-				<div style="display: flex; justify-content:space-evenly;">
-					<div>
-						<button type="submit" class="btn mb-3" style="background-color: green; 
-								color: whitesmoke;">Aggiungi Ingrediente</button>
-					</div>
-					<div>
-						<a th:href="@{/pizze}" class="btn" style="background-color: green;
-								color: whitesmoke;">Torna al Menu</a>
-					</div>
-				</div>
-			</form>
+		<div style="display: flex; justify-content:center; padding: 20px;">
+			<div>
+				<a th:href="@{/pizze}" class="btn" style="background-color: green;
+					color: whitesmoke;">Torna al Menu</a>
+			</div>
 		</div>
 	</div>
 </main>
