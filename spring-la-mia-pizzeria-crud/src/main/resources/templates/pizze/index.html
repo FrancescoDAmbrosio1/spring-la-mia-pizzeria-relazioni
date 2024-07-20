@@ -17,7 +17,7 @@
 <body>
 <header>
 	<nav class="navbar navbar-expand-lg" style="background-color: red;">
-	  <div class="container-fluid">
+	  <div class="container-fluid" style="width: 100%;">
 		<img th:src="@{/images/icona.png}" alt="Logo Pizzeria"
 			 width="50" height="44" style="margin: 5px;">
 	    <a class="navbar-brand text-white" href="#">La mia Pizzeria</a>
@@ -76,7 +76,7 @@
 							<tr th:each="pizza : ${list}">
 								<td th:text="${pizza.name}">1</td>
 								<td>
-									<ul class="list-group list-group-horizontal" style="list-style-type: none;">
+									<ul class="list-group list-group-horizontal" style="list-style-type: none; display: flex;">
 <!--										<li th:unless="${list.isEmpty()}"-->
 <!--										th:with="ultimoIngrediente=${pizza.ingredienti[__${#lists.size(pizza.ingredienti) - 1}__]}">-->
 <!--											<span th:each="ingrediente: ${pizza.ingredienti}" -->

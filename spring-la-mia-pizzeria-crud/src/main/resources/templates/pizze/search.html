@@ -52,43 +52,56 @@
 		<h1>Ricerca delle Pizze ...</h1>
 					<table id="table-1" class="table table-striped"
 						th:unless="${list.isEmpty()}">
-							<thead>
-								<tr>
-									<th class="col-3"> NOME </th>
-									<th class="col-4"> DESCRIZIONE </th>
-									<th class="col-2 d-none d-md-table-cell"> PREZZO </th>
-									<th class="col-4"></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="pizza : ${list}">
-									<td th:text="${pizza.name}">1</td>
-									<td th:text="${pizza.description}">1</td>
-									<td th:text="|€ ${#numbers.formatDecimal(pizza.price, 1, 2, 'COMMA')}|">1</td>
-									<td>
-										<div class="container d-flex gap-2">
-											<a class="btn" style="background-color: green;
-												color: whitesmoke;"
-												th:href="@{|/pizze/show/${pizza.id}|}"><i class="bi bi-search"></i>
-											</a>
-											<a class="btn" style="background-color: green;
-												color: whitesmoke;"
-												th:href="@{|/pizze/edit/${pizza.id}|}"><i class="bi bi-pencil"></i>
-											</a>
-											<form th:action="@{'/pizze/delete/{id}'(id=${pizza.id})}"
-													method="post">
+						<thead>
+							<tr>
+								<th class="col-3"> NOME </th>
+								<th class="col-4"> Ingredienti </th>
+								<th class="col-2 d-none d-md-table-cell"> PREZZO </th>
+								<th class="col-3"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="pizza : ${list}">
+								<td th:text="${pizza.name}">1</td>
+								<td>
+									<ul class="list-group list-group-horizontal" style="list-style-type: none;">
+<!--										<li th:unless="${list.isEmpty()}"-->
+<!--										th:with="ultimoIngrediente=${pizza.ingredienti[__${#lists.size(pizza.ingredienti) - 1}__]}">-->
+<!--											<span th:each="ingrediente: ${pizza.ingredienti}" -->
+<!--											th:text="${ultimoIngrediente.name}" style="padding-right: 3px;"></span>-->
+<!--										</li>-->
+										<li th>
+											<span th:each="ingrediente: ${pizza.ingredienti}" 
+												th:text="|${ingrediente.name},|" style="padding-right: 3px;"></span>
+										</li>		
+									</ul>
+								</td>
+								<td class="col-2 d-none d-md-table-cell" 
+									th:text="|€ ${#numbers.formatDecimal(pizza.price, 1, 2, 'COMMA')}|">1</td>
+								<td>
+									<div class="container-fluid d-flex gap-1">
+										<a class="btn" style="background-color: green;
+											color: whitesmoke;"
+											th:href="@{|/pizze/show/${pizza.id}|}"><i class="bi bi-search"></i>
+										</a>
+										<a class="btn" style="background-color: green;
+											color: whitesmoke;"
+											th:href="@{|/pizze/edit/${pizza.id}|}"><i class="bi bi-pencil"></i>
+										</a>
+										<form th:action="@{'/pizze/delete/{id}'(id=${pizza.id})}"
+												method="post">
 												<button class="btn" type="submit" id="submitButton"
-													style="background-color: red; color: whitesmoke;"
-													th:data-confirm-delete="|Sei sicuro di voler cancellare la pizza?|"
-													onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">
-													<i class="bi bi-trash"></i>
+														style="background-color: red; color: whitesmoke;"
+														th:data-confirm-delete="|Sei sicuro di voler cancellare la pizza?|"
+														onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">
+														<i class="bi bi-trash"></i>
 												</button>
-											</form>
-										</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+										</form>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>			
 						<div th:if="${list.isEmpty()}">
 							<span> La ricerca non ha prodotto risultati </span>
 						</div>

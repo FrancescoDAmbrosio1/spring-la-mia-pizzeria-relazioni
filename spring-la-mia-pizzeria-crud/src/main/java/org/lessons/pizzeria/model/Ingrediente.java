@@ -26,6 +26,8 @@ public class Ingrediente {
 	@ManyToMany(mappedBy = "ingrediente")
 	private Set<Pizza> pizza;
 
+	
+	
 	public Integer getId() {
 		return id;
 	}

@@ -3,6 +3,7 @@ package org.lessons.pizzeria.controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.lessons.pizzeria.model.Ingrediente;
 import org.lessons.pizzeria.model.Offerta;
@@ -134,7 +135,14 @@ public class PizzaController {
 	
 	@PostMapping("/delete/{id}")
 	public String delete(@PathVariable("id") Integer id) {
-		
+			
+//		----Non necessario quando impostato method CASCADE sulle foreign keys del database-----
+//		Pizza pizza = pizzaRepository.findById(id).get();				
+//		
+//		for(Ingrediente ingredienti : pizza.getIngredienti()) {					
+//			
+//			ingredienti.getPizza().remove(pizza);		}
+//		
 		pizzaRepository.deleteById(id);
 		
 		return "redirect:/pizze";
@@ -163,7 +171,6 @@ public class PizzaController {
 			@Valid @ModelAttribute("offerta") Offerta offerta, 
 			BindingResult bindingResult, Model model) {
 		
-//		System.out.println(offerta.getPizza().getId());
 		if(bindingResult.hasErrors()) {
 			
 			return"/offerte/create";
@@ -173,7 +180,7 @@ public class PizzaController {
 		offertaRepository.save(offerta);
 		
 		
-		return "redirect:/pizze/show" + offerta.getPizza().getId();
+		return "redirect:/pizze/show/" + offerta.getPizza().getId();
 		
 	}
 	
